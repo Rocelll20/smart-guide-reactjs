@@ -88,7 +88,7 @@ export default function SignIn() {
 
         {/* Right Side */}
         <div className="w-full md:w-7/12 p-10 z-10 flex flex-col justify-center">
-          <h2 className={`text-xl font-bold mb-8 ${darkMode ? "text-red-500" : "text-red-600"}`}>Sign In</h2>
+          <h2 className={`text-xl font-bold mb-8 ${darkMode ? "text-red-500" : "text-red-600"}`}>Log In</h2>
 
           {error && <div className="mb-4 text-red-400 text-sm">{error}</div>}
 
@@ -157,7 +157,7 @@ export default function SignIn() {
               disabled={loading}
               className="w-full bg-gradient-to-r from-red-600 to-red-800 text-white font-medium py-3 rounded-lg hover:opacity-90 transition-opacity flex justify-between items-center px-5 shadow-lg shadow-red-800/30"
             >
-              <span>{loading ? "Signing In..." : "Sign In"}</span>
+              <span>{loading ? "Logging In..." : "Log In"}</span>
               <ArrowRight className="w-5 h-5 text-white/90" />
             </button>
 
