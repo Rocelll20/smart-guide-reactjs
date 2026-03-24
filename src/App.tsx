@@ -17,7 +17,6 @@ export default function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="device" element={<DevicePage />} />
-          <Route path="emergency" element={<EmergencyPage />} />
           <Route path="active-users" element={<ActiveUsersPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="settings" element={<SettingsPage />} />

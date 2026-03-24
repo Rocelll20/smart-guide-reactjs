@@ -17,7 +17,6 @@ const Sidebar = () => {
   const menuItems = [
     { icon: <LayoutDashboard size={18} />, label: "Dashboard", href: "/dashboard" },
     { icon: <Monitor size={18} />, label: "Device", href: "/dashboard/device" },
-    { icon: <AlertCircle size={18} />, label: "Emergency", href: "/dashboard/emergency" },
     { icon: <UserStar size={18} />, label: "Active Users", href: "/dashboard/active-users" },
   ];
 
