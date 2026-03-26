@@ -3,7 +3,6 @@ import {
   LayoutDashboard,
   AlertCircle,
   Users,
-  Settings,
   LogOut,
   UserCheck,
   Monitor,
@@ -30,7 +29,6 @@ const Sidebar = () => {
 
   const accountItems: NavItem[] = [
     { icon: <Users size={18} />, label: "Profile & Settings", href: "/dashboard/profile" },
-    // { icon: <Settings size={18} />, label: "Settings", href: "/dashboard/settings" },
   ];
 
   const isActiveRoute = (href: string) => {
@@ -43,10 +41,10 @@ const Sidebar = () => {
         fixed left-4 top-4 bottom-4 w-64
         bg-sidebar rounded-2xl flex flex-col z-50 hidden md:flex
         shadow-xl border border-sidebar-border
-        overflow-hidden /* Ensures absolutely no scrollbars appear */
+        overflow-hidden
       "
     >
-      {/* 1. Brand Header */}
+      {/* Brand Header */}
       <Link
         to="/dashboard"
         className="flex items-center gap-3 border-b border-sidebar-border mx-4 py-6 shrink-0"
@@ -57,7 +55,7 @@ const Sidebar = () => {
         </h1>
       </Link>
 
-      {/* 2. Main Navigation - No Scroll */}
+      {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-hidden">
         {menuItems.map((item) => {
           const isActive = isActiveRoute(item.href);
@@ -68,19 +66,20 @@ const Sidebar = () => {
               className={`
                 flex items-center gap-3 px-3 py-2.5 rounded-xl
                 transition-all duration-200
-                ${isActive
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-md"
-                  : "text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent"
+                ${
+                  isActive
+                    ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-md"
+                    : "text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent"
                 }
               `}
             >
               <div
                 className={`
                   w-9 h-9 rounded-lg flex items-center justify-center shrink-0
-                  transition
-                  ${isActive
-                    ? "bg-sidebar-primary-foreground/20 text-sidebar-primary-foreground"
-                    : "bg-muted text-sidebar-primary"
+                  ${
+                    isActive
+                      ? "bg-sidebar-primary-foreground/20 text-sidebar-primary-foreground"
+                      : "bg-muted text-sidebar-primary"
                   }
                 `}
               >
@@ -98,6 +97,7 @@ const Sidebar = () => {
           <p className="px-3 text-[10px] font-bold text-muted-foreground mb-3 tracking-widest uppercase">
             Account
           </p>
+
           {accountItems.map((item) => {
             const isActive = isActiveRoute(item.href);
             return (
@@ -107,18 +107,20 @@ const Sidebar = () => {
                 className={`
                   flex items-center gap-3 px-3 py-2.5 rounded-xl
                   transition-all duration-200
-                  ${isActive
-                    ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-md"
-                    : "text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent"
+                  ${
+                    isActive
+                      ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-md"
+                      : "text-muted-foreground hover:text-sidebar-foreground hover:bg-sidebar-accent"
                   }
                 `}
               >
                 <div
                   className={`
                     w-9 h-9 rounded-lg flex items-center justify-center shrink-0
-                    ${isActive
-                      ? "bg-sidebar-primary-foreground/20 text-sidebar-primary-foreground"
-                      : "bg-muted text-sidebar-primary"
+                    ${
+                      isActive
+                        ? "bg-sidebar-primary-foreground/20 text-sidebar-primary-foreground"
+                        : "bg-muted text-sidebar-primary"
                     }
                   `}
                 >
@@ -133,7 +135,7 @@ const Sidebar = () => {
         </div>
       </nav>
 
-      {/* 3. Bottom Footer Section (Logout & Avatar) */}
+      {/* Footer */}
       <div className="p-4 mt-auto border-t border-sidebar-border shrink-0 bg-sidebar">
         <Link
           to="/"
@@ -148,12 +150,16 @@ const Sidebar = () => {
         </Link>
 
         <div className="flex items-center gap-3 px-3">
-          <div className="w-9 h-9 rounded-full border border-sidebar-border flex items-center justify-center text-sidebar-foreground font-bold text-sm bg-muted shadow-inner cursor-pointer hover:border-ring transition-colors">
+          <div className="w-9 h-9 rounded-full border border-sidebar-border flex items-center justify-center text-sidebar-foreground font-bold text-sm bg-muted shadow-inner">
             N
           </div>
           <div className="flex flex-col">
-            <span className="text-xs font-bold text-sidebar-foreground leading-none">Admin</span>
-            <span className="text-[10px] text-muted-foreground mt-1">online</span>
+            <span className="text-xs font-bold text-sidebar-foreground leading-none">
+              Admin
+            </span>
+            <span className="text-[10px] text-muted-foreground mt-1">
+              online
+            </span>
           </div>
         </div>
       </div>
