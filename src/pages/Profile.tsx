@@ -1,150 +1,255 @@
 import React, { useRef, useState } from "react";
 
-export default function ProfilePage() {
+type Tab = "profile" | "settings";
+
+export default function AdminDashboard() {
+  const [activeTab, setActiveTab] = useState<Tab>("profile");
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [saved, setSaved] = useState(false);
+  
+  // Settings States
+  const [notifications, setNotifications] = useState(true);
+  const [twoFactor, setTwoFactor] = useState(true);
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handlePhotoClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setProfileImage(imageUrl);
-    }
+  const handleSave = () => {
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto animation-fade-in relative z-10 px-4 mt-8">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white mb-2">
-            Profile
-          </h1>
-          <p className="text-white/60 text-sm">
-            Manage your personal information and account preferences.
-          </p>
-        </div>
-      </div>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
 
-      <div className="bg-[#111624] rounded-2xl p-8 border border-white/5">
-        <h2 className="text-xl font-semibold text-white mb-6">
-          User Information
-        </h2>
+        :root {
+          --bg: #0d1117;
+          --panel: #161b22;
+          --border: rgba(255, 255, 255, 0.1);
+          --gold: #f0b429;
+          --text: #e6edf3;
+          --text-muted: #848d97;
+          --accent: #238636;
+        }
 
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Profile Picture */}
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-32 h-32 rounded-full bg-gray-700 overflow-hidden flex items-center justify-center">
-              {profileImage ? (
-                <img
-                  src={profileImage}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="text-white text-3xl font-bold">RM</span>
-              )}
-            </div>
+        .dashboard-container {
+          display: flex;
+          gap: 32px;
+          padding: 24px;
+          background: var(--bg);
+          font-family: 'Inter', sans-serif;
+          color: var(--text);
+          min-height: 100vh;
+        }
 
-            <button
-              onClick={handlePhotoClick}
-              className="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white text-sm rounded-lg transition"
-            >
-              Change Photo
-            </button>
+        /* Sub-navigation inside content */
+        .sub-nav {
+          width: 220px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
 
-            {/* Hidden File Input */}
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handlePhotoChange}
-              className="hidden"
-            />
-          </div>
+        .tab-btn {
+          background: transparent;
+          border: none;
+          color: var(--text-muted);
+          padding: 10px 16px;
+          text-align: left;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 14px;
+          transition: 0.2s;
+        }
 
-          {/* Personal Details Form */}
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col">
-              <label className="text-white/60 text-sm mb-2">Full Name</label>
-              <input
-                type="text"
-                placeholder="Enter full name"
-                className="bg-[#1a2035] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-            </div>
+        .tab-btn:hover { background: rgba(255,255,255,0.05); }
+        .tab-btn.active {
+          background: rgba(240, 180, 41, 0.1);
+          color: var(--gold);
+          font-weight: 600;
+        }
 
-            <div className="flex flex-col">
-              <label className="text-white/60 text-sm mb-2">Date of Birth</label>
-              <input
-                type="date"
-                className="bg-[#1a2035] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-            </div>
+        /* Content Area */
+        .main-content { flex: 1; max-width: 850px; }
 
-            <div className="flex flex-col">
-              <label className="text-white/60 text-sm mb-2">Gender</label>
-              <select className="bg-[#1a2035] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
-                <option>Male</option>
-                <option>Female</option>
-                <option>Prefer not to say</option>
-              </select>
-            </div>
+        .header-group { margin-bottom: 24px; }
+        .header-group h1 { font-size: 24px; margin: 0 0 4px 0; }
+        .header-group p { color: var(--text-muted); font-size: 14px; }
 
-            <div className="flex flex-col">
-              <label className="text-white/60 text-sm mb-2">Contact Number</label>
-              <input
-                type="tel"
-                placeholder="Enter contact number"
-                className="bg-[#1a2035] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-            </div>
+        .glass-card {
+          background: var(--panel);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 32px;
+        }
 
-            <div className="flex flex-col md:col-span-2">
-              <label className="text-white/60 text-sm mb-2">Address</label>
-              <input
-                type="text"
-                placeholder="Enter address"
-                className="bg-[#1a2035] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-            </div>
+        .section-label {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 11px;
+          color: var(--gold);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          margin-bottom: 24px;
+          display: block;
+        }
 
-            <div className="flex flex-col">
-              <label className="text-white/60 text-sm mb-2">Blood Type</label>
-              <select className="bg-[#1a2035] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-teal-500">
-                <option>A+</option>
-                <option>A-</option>
-                <option>B+</option>
-                <option>B-</option>
-                <option>AB+</option>
-                <option>AB-</option>
-                <option>O+</option>
-                <option>O-</option>
-              </select>
-            </div>
+        /* Avatar Section */
+        .avatar-section { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; }
+        .avatar-box {
+          width: 80px; height: 80px;
+          border-radius: 50%;
+          border: 2px solid var(--gold);
+          display: flex; align-items: center; justify-content: center;
+          font-size: 24px; font-weight: 700; overflow: hidden;
+          background: #0d1117;
+        }
+        .avatar-box img { width: 100%; height: 100%; object-fit: cover; }
 
-            <div className="flex flex-col md:col-span-2">
-              <label className="text-white/60 text-sm mb-2">
-                Medical Notes (Optional)
-              </label>
-              <textarea
-                rows={3}
-                placeholder="Enter any medical notes"
-                className="bg-[#1a2035] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
-              />
-            </div>
-          </div>
-        </div>
+        /* Form Grid */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-row { grid-column: span 2; }
 
-        <div className="mt-8 flex justify-end">
-          <button className="px-6 py-2 bg-teal-600 hover:bg-teal-500 text-white rounded-lg transition">
-            Save Changes
+        .field { display: flex; flex-direction: column; gap: 8px; }
+        .field label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+        
+        input, select, textarea {
+          background: #0d1117;
+          border: 1px solid var(--border);
+          padding: 10px 14px;
+          border-radius: 6px;
+          color: var(--text);
+          font-size: 14px;
+        }
+
+        input:focus { outline: none; border-color: var(--gold); }
+
+        /* Modern Toggle */
+        .setting-row {
+          display: flex; justify-content: space-between; align-items: center;
+          padding: 16px 0; border-bottom: 1px solid var(--border);
+        }
+        .toggle {
+          width: 40px; height: 20px; background: #30363d;
+          border-radius: 20px; position: relative; cursor: pointer;
+        }
+        .toggle.active { background: var(--accent); }
+        .toggle::after {
+          content: ''; position: absolute; width: 16px; height: 16px;
+          background: white; border-radius: 50%; top: 2px; left: 2px; transition: 0.2s;
+        }
+        .toggle.active::after { transform: translateX(20px); }
+
+        .btn-save {
+          background: var(--gold);
+          color: #0d1117;
+          border: none;
+          padding: 10px 24px;
+          border-radius: 6px;
+          font-weight: 700;
+          cursor: pointer;
+          margin-top: 24px;
+        }
+        .btn-save:hover { opacity: 0.9; }
+      `}</style>
+
+      <div className="dashboard-container">
+        {/* Sub Navigation (Middle Column) */}
+        <nav className="sub-nav">
+          <button 
+            className={`tab-btn ${activeTab === 'profile' ? 'active' : ''}`} 
+            onClick={() => setActiveTab('profile')}
+          >
+            ◈ Admin Profile
           </button>
-        </div>
+          <button 
+            className={`tab-btn ${activeTab === 'settings' ? 'active' : ''}`} 
+            onClick={() => setActiveTab('settings')}
+          >
+            ⬢ System Settings
+          </button>
+        </nav>
+
+        {/* Main Content Area */}
+        <main className="main-content">
+          <div className="header-group">
+            <h1>{activeTab === 'profile' ? 'Profile' : 'Settings'}</h1>
+            <p>Manage your account preferences and identity.</p>
+          </div>
+
+          <div className="glass-card">
+            {activeTab === 'profile' ? (
+              <>
+                <span className="section-label">Identity Details</span>
+                <div className="avatar-section">
+                  <div className="avatar-box">
+                    {profileImage ? <img src={profileImage} /> : "AD"}
+                  </div>
+                  <button className="tab-btn" style={{border: '1px solid var(--border)'}} onClick={() => fileInputRef.current?.click()}>
+                    Update Photo
+                  </button>
+                  <input type="file" ref={fileInputRef} hidden onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if(f) setProfileImage(URL.createObjectURL(f));
+                  }} />
+                </div>
+
+                <div className="form-grid">
+                  <div className="field">
+                    <label>Full Name</label>
+                    <input type="text" defaultValue="Admin User" />
+                  </div>
+                  <div className="field">
+                    <label>Display Handle</label>
+                    {/* FIXED THE ERROR HERE: color is wrapped in quotes */}
+                    <input type="text" defaultValue="admin.root" style={{fontFamily: 'JetBrains Mono', color: 'var(--gold)'}} />
+                  </div>
+                  <div className="field full-row">
+                    <label>Internal Email</label>
+                    <input type="email" defaultValue="admin@system.internal" />
+                  </div>
+                  <div className="field full-row">
+                    <label>Short Bio</label>
+                    <textarea rows={3} placeholder="System administrator for SmartGuide..." />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <span className="section-label">System Preferences</span>
+                <div className="setting-row">
+                  <div>
+                    <div style={{fontWeight: 600}}>Push Notifications</div>
+                    <div style={{fontSize: '12px', color: 'var(--text-muted)'}}>Alerts for new device connections.</div>
+                  </div>
+                  <div className={`toggle ${notifications ? 'active' : ''}`} onClick={() => setNotifications(!notifications)} />
+                </div>
+                <div className="setting-row">
+                  <div>
+                    <div style={{fontWeight: 600}}>Two-Factor Auth</div>
+                    <div style={{fontSize: '12px', color: 'var(--text-muted)'}}>Extra security for admin login.</div>
+                  </div>
+                  <div className={`toggle ${twoFactor ? 'active' : ''}`} onClick={() => setTwoFactor(!twoFactor)} />
+                </div>
+                <div className="form-grid" style={{marginTop: '20px'}}>
+                  <div className="field">
+                    <label>Language</label>
+                    <select><option>English</option><option>Tagalog</option></select>
+                  </div>
+                  <div className="field">
+                    <label>Default View</label>
+                    <select><option>Dashboard</option><option>Map View</option></select>
+                  </div>
+                </div>
+              </>
+            )}
+
+            <button className="btn-save" onClick={handleSave}>
+              {saved ? "Success ✓" : "Save Changes"}
+            </button>
+          </div>
+        </main>
       </div>
-    </div>
+    </>
   );
 }

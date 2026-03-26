@@ -6,7 +6,7 @@ import ActiveUsersPage from "@/pages/ActiveUsers";
 import DevicePage from "@/pages/Device";
 import EmergencyPage from "@/pages/Emergency";
 import ProfilePage from "@/pages/Profile";
-import SettingsPage from "@/pages/Settings";
+
 
 export default function App() {
   return (
@@ -20,7 +20,7 @@ export default function App() {
           <Route path="emergency" element={<EmergencyPage />} />
           <Route path="active-users" element={<ActiveUsersPage />} />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="settings" element={<SettingsPage />} />
+          {/* <Route path="settings" element={<SettingsPage />} /> */}
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
