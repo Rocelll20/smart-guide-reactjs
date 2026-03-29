@@ -1,4 +1,3 @@
-import React from "react";
 import Sidebar from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
 
@@ -10,7 +9,7 @@ export default function DashboardLayout() {
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 w-full md:ml-[280px] p-4 md:p-6 flex flex-col h-screen overflow-y-auto overflow-x-hidden">
+      <main className="flex-1 w-full md:ml-70 p-4 md:p-6 flex flex-col h-screen overflow-y-auto overflow-x-hidden">
         <Outlet />
       </main>
 

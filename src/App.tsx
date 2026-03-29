@@ -24,7 +24,7 @@ export default function App() {
             <Route path="device" element={<DevicePage />} />
             <Route path="active-users" element={<ActiveUsersPage />} />
             <Route path="profile" element={<ProfilePage />} />
-            <Route path="settings" element={<SettingsPage />} />
+            {/* <Route path="settings" element={<SettingsPage />} /> */}
           </Route>
 
           {/* FALLBACK */}

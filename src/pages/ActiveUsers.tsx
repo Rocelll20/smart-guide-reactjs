@@ -114,8 +114,8 @@ function AddModal({ isOpen, onClose, onSubmit }: AddModalProps) {
   const iC = "w-full px-3 py-2 rounded-xl text-sm text-white placeholder-white/30 outline-none transition-all focus:border-red-500/60 focus:ring-1 focus:ring-red-500/20";
 
   return(<>
-    <div className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm" onClick={onClose} style={{animation:"aufade .15s ease"}}/>
-    <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[201] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl" style={{background:"#161b22",border:"1px solid rgba(255,255,255,0.1)",animation:"aumodal .2s cubic-bezier(.34,1.56,.64,1)"}}>
+    <div className="fixed inset-0 z-200 bg-black/60 backdrop-blur-sm" onClick={onClose} style={{animation:"aufade .15s ease"}}/>
+    <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-201 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl" style={{background:"#161b22",border:"1px solid rgba(255,255,255,0.1)",animation:"aumodal .2s cubic-bezier(.34,1.56,.64,1)"}}>
       <div className="flex items-center justify-between px-5 py-4 border-b" style={{borderColor:"rgba(255,255,255,0.08)",background:"#0d1117"}}>
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-red-500/20 flex items-center justify-center"><UserPlus size={14} className="text-red-400"/></div>
@@ -277,7 +277,7 @@ export default function ActiveUsersPage() {
 
       <div className="flex flex-col gap-4 pb-6 px-4">
         <div className="flex flex-wrap gap-3 items-center p-3 rounded-2xl" style={{background:"#161b22",border:"1px solid rgba(255,255,255,0.07)"}}>
-          <div className="relative flex-1 min-w-[180px]">
+          <div className="relative flex-1 min-w-45">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-red-400 pointer-events-none"/>
             <input className="w-full pl-9 pr-8 py-2 rounded-xl text-sm text-white placeholder-white/30 outline-none" style={{background:"#0d1117",border:"1px solid rgba(255,255,255,0.08)",fontFamily:"inherit"}}
               placeholder="Search name, email, ID or device..." value={query} onChange={e=>setQuery(e.target.value)}/>
@@ -325,7 +325,7 @@ export default function ActiveUsersPage() {
 
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <div className="relative flex-shrink-0">
+                        <div className="relative shrink-0">
                           <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-[11px] font-black" style={{background:avatarGrad(u.id),fontFamily:"'JetBrains Mono',monospace"}}>{u.avatar}</div>
                           <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${u.status==="online"?"status-pulse":""}`} style={{background:u.status==="online"?"#12b886":"#ef4444",borderColor:i%2===0?"#161b22":"#13181f"}}/>
                         </div>
@@ -339,10 +339,10 @@ export default function ActiveUsersPage() {
                     <td className="px-4 py-3">
                       <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-1.5 text-[11.5px] text-white/50">
-                          <Mail size={10} className="text-white/25 flex-shrink-0"/><span className="truncate max-w-[160px]">{u.email}</span>
+                          <Mail size={10} className="text-white/25 shrink-0"/><span className="truncate max-w-40">{u.email}</span>
                         </div>
                         <div className="flex items-center gap-1.5 text-[11.5px] text-white/50">
-                          <Phone size={10} className="text-white/25 flex-shrink-0"/><span style={{fontFamily:"'JetBrains Mono',monospace"}}>{u.phone}</span>
+                          <Phone size={10} className="text-white/25 shrink-0"/><span style={{fontFamily:"'JetBrains Mono',monospace"}}>{u.phone}</span>
                         </div>
                       </div>
                     </td>
